@@ -6,7 +6,7 @@ from .models import Cresult
 from django.contrib.auth.decorators import login_required
 from django.template.defaulttags import register
 
-from datetime import datetime
+# from datetime import datetime
 
 # Create your views here.
 @register.filter
@@ -26,11 +26,15 @@ def answer(request):
     cc=ci.count() #选取的条数
     user=request.user
     student=user.first_name
-    xyz='1'
     if request.session.has_key('answered'):
         dic_answered = request.session['answered']
         for _ in ci:
             dic_answered[str(_.id)] =  {dic_answered.get(str(_.id)):'checked'}
+    else:
+        dic_answered={}
+        for _ in ci:
+            dic_answered[str(_.id)] =  {dic_answered.get(str(_.id)):'checked'}
+
     return render(request, 'choic/answer.html',locals())
 
 @login_required
@@ -49,8 +53,8 @@ def saveresult(request):
             Cresult.objects.update_or_create(question=question, user=user, answer=answer,
                                              answerstate=answerstate)
                                              ## answertime=datetime.today().replace(hour=8).isoformat(' '))
-
-    return HttpResponseRedirect("/answer/")
+        return render(request, 'choic/saveresult.html')
+    # return HttpResponseRedirect("/answer/")
 
 
 
@@ -77,5 +81,8 @@ def loginstu(request):
 
 def logoutstu(request):
     logout(request)
-    del request.session['answered']
+    try:
+        del request.session['answered']
+    except:
+        pass
     return HttpResponseRedirect('/')
