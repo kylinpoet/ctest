@@ -1,0 +1,43 @@
+{% extends 'choic/index.html' %}
+
+{% if errors %}
+        <li>
+
+            {% for error in errors %}
+             <p style="color: red;">
+                {{error}}
+             </p>
+              {% endfor %}
+        </li>
+    {% endif %}
+    
+{% block content %}
+<table>
+    <form action="" method="post">{% csrf_token %}
+
+        <tr>
+            <td>
+                <label >用户名:</label>
+            </td>
+            <td>
+                <input type = 'text' placeholder="输入用户名" name = 'stu'>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label >密码:</label>
+            </td>
+            <td>
+              <input type = 'password' placeholder="输入密码" name = 'psw'>
+            </td>
+        </tr>
+
+          <tr>
+
+              <td>
+                   <input type = 'submit' placeholder="Login" value="登录">
+              </td>
+          </tr>
+    </form>
+</table>
+{% endblock %}
