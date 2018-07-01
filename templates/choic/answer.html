@@ -4,6 +4,10 @@
 {% block content %}
 <font size="6">
 &nbsp&nbsp&nbsp请&nbsp{{student}}&nbsp回答以下{{ cc }}道选择题，每小题只有一个正确选项：
+{# dic_answered ={'1': 'a', '2': 'a', '3': 'a', '6': 'a'} #}
+
+{# for value in dic_answered #}
+
 {% for item  in ci %}
 <p>{{item.body|linebreaksbr}}</p>
     {% if item.pic %}
@@ -12,16 +16,18 @@
 
 <p>请输入你的答案：</p>
 
+{% with item.id|stringformat:'i' as new_id %}
+
 <form action="{% url 'choic:saveresult' %}" method="GET">
       <!--<input type="hidden"name="i"value="{{ item.id }}">-->
-      <input type="radio" name="{{ item.id }}" value="a" style="width: 30px;height: 30px">a&nbsp
-      <input type="radio" name="{{ item.id }}" value="b"style="width: 30px;height: 30px">b&nbsp
-      <input type="radio" name="{{ item.id }}" value="c"style="width: 30px;height: 30px">c&nbsp
-      <input type="radio" name="{{ item.id }}" value="d"style="width: 30px;height: 30px">d&nbsp
-      <input type="radio" name="{{ item.id }}" value="n"style="width: 30px;height: 30px"checked >没把握
+      <input type="radio" name="{{ item.id }}" value="a" style="width: 30px;height: 30px" {{dic_answered|get_item:new_id|get_item:'a'}}>a&nbsp
+      <input type="radio" name="{{ item.id }}" value="b" style="width: 30px;height: 30px" {{dic_answered|get_item:new_id|get_item:'b'}}>b&nbsp
+      <input type="radio" name="{{ item.id }}" value="c" style="width: 30px;height: 30px"{{dic_answered|get_item:new_id|get_item:'c'}}>c&nbsp
+      <input type="radio" name="{{ item.id }}" value="d" style="width: 30px;height: 30px"{{dic_answered|get_item:new_id|get_item:'d'}}>d&nbsp
+      <input type="radio" name="{{ item.id }}" value="n" style="width: 30px;height: 30px"{{dic_answered|get_item:new_id|get_item:'n'}}>没把握
       <!--<p>理由：<input name="answerdetail">（可不填）</p>-->
-
 <hr>
+{%endwith %}
 {%  endfor %}
 
       <p><input type="submit"style="font-size:25px;color:red" value="提交"/></p>

@@ -5,8 +5,9 @@ app_name = 'choic'
 urlpatterns = [
 
     path('',views.index),
-    path('saveresult/',views.saveresult),
+    path('answer/',views.answer),
+    path('saveresult/',views.saveresult,name='saveresult'),
     path('loginstu/',views.loginstu),
-
+    path('logoutstu/',views.logoutstu),
 
 ]
